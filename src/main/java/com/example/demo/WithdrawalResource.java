@@ -17,8 +17,8 @@ public class WithdrawalResource {
 //    WithdrawalService withdrawalService;
 //    @Autowired
 //    UserRepository userRepository;
-//    @Autowired
-//    TransactionService transactionService;
+    @Autowired
+    TransactionService transactionService;
 //
 //    @Autowired
 //    WithdrawalRepository withdrawalRepository;
@@ -31,9 +31,9 @@ public class WithdrawalResource {
     //@PathVariable("ip") String ip, @PathVariable("action") String action
     @GetMapping("/{ip}&{action}")
     public String evaluate(@PathVariable("ip") String ip, @PathVariable("action") String action){
-//        return transactionService.evaluate(ip,action);
+        return transactionService.evaluate(ip,action);
 
-        return "ip";
+//        return "ip";
     }
 
     @GetMapping("/baby")
