@@ -35,6 +35,7 @@ public class WithdrawalResource {
 
         return "ip";
     }
+
     @GetMapping("/baby")
     public String baby(){
         return "connected";
