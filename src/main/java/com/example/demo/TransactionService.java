@@ -84,6 +84,10 @@ public class TransactionService {
 
     }
 
+    public String printService(String ip, String action) {
+        return ip + action;
+    }
+
 //    public ResponseEntity<?> updateWithdrawal(String id, Withdrawal withdrawal) {
 //        withdrawal.setId(id);
 //        withdrawalRepository.save(withdrawal);

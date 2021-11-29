@@ -35,6 +35,18 @@ public class WithdrawalResource {
 
 //        return "ip";
     }
+    @GetMapping("/{ip}a{action}")
+    public String print(@PathVariable("ip") String ip, @PathVariable("action") String action){
+        return ip+ action;
+
+//        return "ip";
+    }
+    @GetMapping("/print")
+    public String printService(){
+        return transactionService.printService("ip","action");
+
+//        return "ip";
+    }
 
     @GetMapping("/baby")
     public String baby(){
