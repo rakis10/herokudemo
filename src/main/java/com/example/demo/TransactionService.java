@@ -54,7 +54,7 @@ public class TransactionService {
 
 
     public String evaluate(String ip, String akcia) {
-        List<Transaction> transactions = new ArrayList<Transaction>();
+//        List<Transaction> transactions = new ArrayList<Transaction>();
 //        try {
 //             transactions =  transactionRepository.findAll();
 //        }catch (Exception e){
@@ -85,6 +85,8 @@ public class TransactionService {
     }
 
     public String printService(String ip, String action) {
+        Transaction transaction = new Transaction(ip,action, new Date());
+        transactionRepository.save(transaction);
         return ip + action;
     }
 
