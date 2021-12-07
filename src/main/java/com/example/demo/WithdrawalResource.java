@@ -50,7 +50,7 @@ public class WithdrawalResource {
 
     @GetMapping("/baby")
     public String baby(){
-        return "connected";
+        return "connected baby";
     }
 
 //    @GetMapping(value = "/all")
