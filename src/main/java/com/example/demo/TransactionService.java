@@ -60,6 +60,7 @@ public class TransactionService {
             transactionRepository.save(transaction);
         }catch (Exception e){
             System.out.println(e.toString());
+            return (e.toString());
         }
 
 
