@@ -16,6 +16,40 @@ public class TransactionService {
     public TransactionService(TransactionRepository transactionRepository){
         this.transactionRepository = transactionRepository;
     }
+    public String evaluate(String ip, String akcia) {
+//        List<Transaction> transactions = new ArrayList<Transaction>();
+        try {
+            Transaction transaction = new Transaction(ip,akcia, new Date());
+            transactionRepository.save(transaction);
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return (e.toString());
+        }
+
+        return "schvalene";
+    }
+
+    public String evaluate(Transaction transaction) {
+        List<Transaction> transactions = new ArrayList<Transaction>();
+        try {
+            transactions =  transactionRepository.findAll();
+        }catch (Exception e){
+            System.out.println(e.toString());
+        }
+
+
+        transaction.setDate(new Date());
+        transactionRepository.save(transaction);
+
+        return "schvalene";
+
+    }
+
+    public String printService(String ip, String action) {
+        Transaction transaction = new Transaction(ip,action, new Date());
+        transactionRepository.save(transaction);
+        return "schvalene";
+    }
 //    public ResponseEntity<?> getWithdrawal(String id) {
 //        Withdrawal w ;
 //        try {
@@ -53,43 +87,7 @@ public class TransactionService {
 
 
 
-    public String evaluate(String ip, String akcia) {
-//        List<Transaction> transactions = new ArrayList<Transaction>();
-        try {
-            Transaction transaction = new Transaction(ip,akcia, new Date());
-            transactionRepository.save(transaction);
-        }catch (Exception e){
-            System.out.println(e.toString());
-            return (e.toString());
-        }
 
-
-
-
-        return "schvalene";
-    }
-
-    public String evaluate(Transaction transaction) {
-        List<Transaction> transactions = new ArrayList<Transaction>();
-        try {
-            transactions =  transactionRepository.findAll();
-        }catch (Exception e){
-            System.out.println(e.toString());
-        }
-
-
-        transaction.setDate(new Date());
-        transactionRepository.save(transaction);
-
-        return "schvalene";
-
-    }
-
-    public String printService(String ip, String action) {
-        Transaction transaction = new Transaction(ip,action, new Date());
-        transactionRepository.save(transaction);
-        return ip + action;
-    }
 
 //    public ResponseEntity<?> updateWithdrawal(String id, Withdrawal withdrawal) {
 //        withdrawal.setId(id);
