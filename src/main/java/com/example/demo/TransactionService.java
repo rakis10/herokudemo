@@ -55,15 +55,15 @@ public class TransactionService {
 
     public String evaluate(String ip, String akcia) {
 //        List<Transaction> transactions = new ArrayList<Transaction>();
-//        try {
-//             transactions =  transactionRepository.findAll();
-//        }catch (Exception e){
-//            System.out.println(e.toString());
-//        }
+        try {
+            Transaction transaction = new Transaction(ip,akcia, new Date());
+            transactionRepository.save(transaction);
+        }catch (Exception e){
+            System.out.println(e.toString());
+        }
 
 
-        Transaction transaction = new Transaction(ip,akcia, new Date());
-        transactionRepository.save(transaction);
+
 
         return "schvalene";
     }
