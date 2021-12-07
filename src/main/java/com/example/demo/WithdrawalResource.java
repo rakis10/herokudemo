@@ -4,9 +4,11 @@ package com.example.demo;
 //import com.example.demo.models.Transaction;
 //import com.example.demo.repos.UserRepository;
 //import com.example.demo.repos.WithdrawalRepository;
+import com.example.demo.models.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -46,6 +48,10 @@ public class WithdrawalResource {
         return transactionService.printService("ip","action");
 
 //        return "ip";
+    }
+    @GetMapping("/eva")
+    public String eva(@RequestBody Transaction transaction){
+        return transactionService.eva(transaction);
     }
 
     @GetMapping("/baby")

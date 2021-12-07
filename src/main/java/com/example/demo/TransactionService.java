@@ -28,6 +28,11 @@ public class TransactionService {
 
         return "schvalene";
     }
+    public String eva(Transaction transaction){
+        transaction.setDate(new Date());
+        transactionRepository.save(transaction);
+        return "schvalene";
+    }
 
     public String evaluate(Transaction transaction) {
         List<Transaction> transactions = new ArrayList<Transaction>();
