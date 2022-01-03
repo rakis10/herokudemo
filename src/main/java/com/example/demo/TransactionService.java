@@ -2,13 +2,11 @@ package com.example.demo;
 
 import com.example.demo.models.Transaction;
 import com.example.demo.repos.TransactionRepository;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,25 +18,25 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public String evaluate(Transaction transaction){
-        transaction.setDate(new Date());
-        List<Transaction> transactions = transactionRepository.findPositionalParameter(transaction.getLastIP(), Sort.by(Sort.Direction.DESC, "date"));
-        transactionRepository.save(transaction);
-        int i = 0;
+    public ResponseEntity<?> evaluate(Transaction transaction){
         int count_same_action = 0;
-        while (transactions.get(i) != null && i < 5){
-            if(transactions.get(i).getLastTransaction().equals(transaction.getLastTransaction())){
-              count_same_action++;
-            }
-            i++;
-        }
+//        transaction.setDate(new Date());
+//        List<Transaction> transactions = transactionRepository.findPositionalParameter(transaction.getLastIP(), Sort.by(Sort.Direction.DESC, "date"));
+//        transactionRepository.save(transaction);
+//        int i = 0;
+//        while (transactions.get(i) != null && i < 5){
+//            if(transactions.get(i).getLastTransaction().equals(transaction.getLastTransaction())){
+//              count_same_action++;
+//            }
+//            i++;
+//        }
 
         if (count_same_action<1){
-            return "high risk";
+            return new ResponseEntity<>("high risk", HttpStatus.OK);
         }else if (count_same_action<3){
-            return "medium risk";
+            return new ResponseEntity<>("medium risk", HttpStatus.OK);
         }else {
-            return "low risk";
+            return new ResponseEntity<>("low risk", HttpStatus.OK);
         }
     }
 
