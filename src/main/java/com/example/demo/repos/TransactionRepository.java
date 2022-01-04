@@ -10,6 +10,6 @@ import java.util.List;
 public interface TransactionRepository extends MongoRepository<Transaction, String> {
 //    List<Transaction> find(Query query, Class<Transaction> transactionClass);
 
-    @Query("{'lastIP' : ?0}")
-    List<Transaction> findPositionalParameter(String lastIP, Sort date);
+    @Query("{'ipAdresa' : ?0}")
+    List<Transaction> findPositionalParameter(String ipAdresa, Sort date);
 }
