@@ -1,6 +1,7 @@
 package com.example.demo.models;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import eu.bitwalker.useragentutils.Version;
 
 import java.util.Date;
 
@@ -13,12 +14,62 @@ public class Transaction {
     String pozadovanaTransakcia;
     String krajina ;
 
+    public String getOperatingSystem() {
+        return operatingSystem;
+    }
 
-    public Transaction(String ipAdresa, String pozadovanaTransakcia, Date datum, String krajina) {
+    public void setOperatingSystem(String operatingSystem) {
+        this.operatingSystem = operatingSystem;
+    }
+
+    public String getBrowser() {
+        return browser;
+    }
+
+    public void setBrowser(String browser) {
+        this.browser = browser;
+    }
+
+    public Version getBrowserVersion() {
+        return browserVersion;
+    }
+
+    public void setBrowserVersion(Version browserVersion) {
+        this.browserVersion = browserVersion;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    String operatingSystem;
+    String browser;
+    Version browserVersion;
+    String email;
+
+
+    public Transaction(
+           String ipAdresa,
+           String pozadovanaTransakcia,
+           Date datum,
+           String krajina,
+           String operatingSystem,
+           String browser,
+           Version browserVersion,
+           String email
+    ){
         this.ipAdresa = ipAdresa;
         this.pozadovanaTransakcia = pozadovanaTransakcia;
         this.datum = datum;
         this.krajina = krajina;
+        this.operatingSystem = operatingSystem;
+        this.browser = browser;
+        this.browserVersion = browserVersion;
+        this.email = email;
     }
 
     public String getKrajina() {
