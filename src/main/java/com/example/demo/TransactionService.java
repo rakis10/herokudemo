@@ -43,7 +43,6 @@ public class TransactionService {
             Transaction last = transactions.get(0);
             if(last.getKrajina().equals(transaction.getKrajina())){
                 int score = getScore(last, transaction);
-
                 if(score < 2 ){
                     return new ResponseEntity<>("low risk", HttpStatus.OK);
                 }else { return new ResponseEntity<>("medium risk", HttpStatus.OK);}

@@ -8,48 +8,15 @@ import java.util.Date;
 @Document
 public class Transaction {
 
-
+    String email;
     Date datum;
     String ipAdresa;
     String pozadovanaTransakcia;
     String krajina ;
-
-    public String getOperatingSystem() {
-        return operatingSystem;
-    }
-
-    public void setOperatingSystem(String operatingSystem) {
-        this.operatingSystem = operatingSystem;
-    }
-
-    public String getBrowser() {
-        return browser;
-    }
-
-    public void setBrowser(String browser) {
-        this.browser = browser;
-    }
-
-    public Version getBrowserVersion() {
-        return browserVersion;
-    }
-
-    public void setBrowserVersion(Version browserVersion) {
-        this.browserVersion = browserVersion;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     String operatingSystem;
     String browser;
-    Version browserVersion;
-    String email;
+    String browserVersion;
+
 
 
     public Transaction(
@@ -59,7 +26,7 @@ public class Transaction {
            String krajina,
            String operatingSystem,
            String browser,
-           Version browserVersion,
+           String browserVersion,
            String email
     ){
         this.ipAdresa = ipAdresa;
@@ -79,6 +46,40 @@ public class Transaction {
     public void setKrajina(String krajina) {
         this.krajina = krajina;
     }
+
+
+    public String getOperatingSystem() {
+        return operatingSystem;
+    }
+
+    public void setOperatingSystem(String operatingSystem) {
+        this.operatingSystem = operatingSystem;
+    }
+
+    public String getBrowser() {
+        return browser;
+    }
+
+    public void setBrowser(String browser) {
+        this.browser = browser;
+    }
+
+    public String getBrowserVersion() {
+        return browserVersion;
+    }
+
+    public void setBrowserVersion(String browserVersion) {
+        this.browserVersion = browserVersion;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     public Date getDatum() {
         return datum;
