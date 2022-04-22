@@ -9,7 +9,7 @@ import java.util.Date;
 public class Transaction {
 
     String email;
-    Date datum;
+    String datum;
     String ipAdresa;
     String pozadovanaTransakcia;
     String krajina ;
@@ -22,7 +22,7 @@ public class Transaction {
     public Transaction(
            String ipAdresa,
            String pozadovanaTransakcia,
-           Date datum,
+           String datum,
            String krajina,
            String operatingSystem,
            String browser,
@@ -81,11 +81,11 @@ public class Transaction {
     }
 
 
-    public Date getDatum() {
+    public String getDatum() {
         return datum;
     }
 
-    public void setDatum(Date datum) {
+    public void setDatum(String datum) {
         this.datum = datum;
     }
 

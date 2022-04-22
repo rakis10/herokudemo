@@ -4,7 +4,6 @@ import com.example.demo.models.Blacklist;
 import com.example.demo.models.Transaction;
 import com.example.demo.repos.BlacklistRepository;
 import com.example.demo.repos.TransactionRepository;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class TransactionService {
 
     public ResponseEntity<?> evaluate(Transaction transaction){
         int count_same_action = 0;
-        transaction.setDatum(new Date());
+        transaction.setDatum(new Date().toString());
         List<Blacklist> blacklists = blacklistRepository.findAll();
 
         for (Blacklist b:blacklists
@@ -36,51 +35,36 @@ public class TransactionService {
             }
         }
 
-//        List<Transaction> transactions = transactionRepository.findPositionalParameter(transaction.getIpAdresa(), Sort.by(Sort.Direction.DESC, "date"));
-        List<Transaction> transactions = transactionRepository.findNamedParameters(transaction.getEmail());
-        if(transactions.size() > 0){
-            // porovnanie s poslednou transakciou
-            Transaction last = transactions.get(0);
-            if(last.getKrajina().equals(transaction.getKrajina())){
-                int score = getScore(last, transaction);
-                if(score < 2 ){
-                    return new ResponseEntity<>("low risk", HttpStatus.OK);
-                }else { return new ResponseEntity<>("medium risk", HttpStatus.OK);}
-            }else{
-                return new ResponseEntity<>("high risk", HttpStatus.OK);
+        List<Transaction> transactions = transactionRepository.findByEmail(transaction.getEmail() );
 
-            }
-//            if(!last.getOperatingSystem().equals(transaction.getOperatingSystem()) || !last.getBrowser().equals(transaction.getBrowser()) ){
+
+
+
+        return new ResponseEntity<>(  "low risk", HttpStatus.OK);
+//        if(transactions.size() > 0){
+//            // porovnanie s poslednou transakciou
+//            Transaction last = transactions.get(0);
+//            if(last.getKrajina().equals(transaction.getKrajina())){
+//                int score = getScore(last, transaction);
+//                // FIXME neulozenie
+//                // transactionRepository.save(transaction);
+//                if(score < 2 ){
+//                    return new ResponseEntity<>("low risk", HttpStatus.OK);
+//                }else { return new ResponseEntity<>("medium risk", HttpStatus.OK);}
+//            }else{
+//                return new ResponseEntity<>("high risk", HttpStatus.OK);
 //
-//            }else {
-//                //
-//                return new ResponseEntity<>("medium risk", HttpStatus.OK);
 //            }
 
-        }else{
-            // prvy krat tento mail
-            transactionRepository.save(transaction);
-            return new ResponseEntity<>("high risk", HttpStatus.OK);
-        }
 
-//        int i = 0;
-
-
-//        while (  i < transactions.size()  && i < 5){
-//            if(transactions.get(i).getPozadovanaTransakcia().equals(transaction.getPozadovanaTransakcia())){
-//              count_same_action++;
-//            }
-//            i++;
-//        }
-//
-//        if (count_same_action<1){
+//        }else{
+//            // prvy krat tento mail
+//            // FIXME neulozenie
+////            transactionRepository.save(transaction);
 //            return new ResponseEntity<>("high risk", HttpStatus.OK);
-//        }else if (count_same_action<3){
-//            return new ResponseEntity<>("medium risk", HttpStatus.OK);
-//        }else {
-//            return new ResponseEntity<>("low risk", HttpStatus.OK);
 //        }
-//        return new ResponseEntity<>("asi nic", HttpStatus.OK);
+
+
     }
 
     private int getScore(Transaction last, Transaction transaction) {
@@ -91,7 +75,7 @@ public class TransactionService {
         return score;
     }
 
-    public List<Transaction> findAll() {
-        return transactionRepository.findAll();
+    public long findAll() {
+        return   transactionRepository.count();
     }
 }

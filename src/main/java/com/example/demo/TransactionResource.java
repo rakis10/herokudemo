@@ -20,8 +20,13 @@ public class TransactionResource {
     @Autowired
     TransactionService transactionService;
 
+//    @GetMapping("/print")
+//    public List<Transaction> printService(){
+//        return transactionService.findAll();
+//
+//    }
     @GetMapping("/print")
-    public List<Transaction> printService(){
+    public long printService(){
         return transactionService.findAll();
 
     }
