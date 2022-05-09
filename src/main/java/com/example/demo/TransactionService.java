@@ -8,8 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class TransactionService {
@@ -24,8 +28,11 @@ public class TransactionService {
     }
 
     public ResponseEntity<?> evaluate(Transaction transaction){
-        int count_same_action = 0;
+        String msg = "";
         transaction.setDatum(new Date().toString());
+        boolean validToken = false;
+        boolean flagCountry = false;
+        boolean flagDevice = false;
         List<Blacklist> blacklists = blacklistRepository.findAll();
 
         for (Blacklist b:blacklists
@@ -35,12 +42,52 @@ public class TransactionService {
             }
         }
 
-        List<Transaction> transactions = transactionRepository.findByEmail(transaction.getEmail() );
+        List<Transaction> transactions = transactionRepository.findByEmailOrderByDatumDesc(transaction.getEmail() );
+        if (transactions.size() <=0){
+            // prvy login
+            transactionRepository.save(transaction);
+            return new ResponseEntity<>("high risk", HttpStatus.OK);
 
+        }
 
+        Transaction lastTransaction  = transactions.get(0);
 
+        String dateString = lastTransaction.getDatum();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+        Date d = new Date();
+        try {
+            d = sdf.parse(dateString) ;
 
-        return new ResponseEntity<>(  "low risk", HttpStatus.OK);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        LocalDateTime l = LocalDateTime.now().minusWeeks(1);
+        ZonedDateTime zdt = l.atZone(ZoneId.systemDefault());
+        Date now = Date.from(zdt.toInstant());
+
+        // viac ako 7 dni  od posledneho loginu
+        if(!d.after(now) ) validToken = true;
+
+        //  different device
+        if (!lastTransaction.getOperatingSystem().equals(transaction.getOperatingSystem()) ||
+                !lastTransaction.getBrowser().equals(transaction.getBrowser()) ||
+        !lastTransaction.getBrowserVersion().equals(transaction.getBrowserVersion()) ) flagDevice = true;
+
+        //  different country
+        if (!lastTransaction.getKrajina().equals(transaction.getKrajina())) flagCountry = true;
+
+        // vyhodnocovanie
+
+        // TODO ak su oboje pridat do banu?
+        if(flagCountry || flagDevice) {
+            msg = "high risk";
+        }else if (validToken){
+            msg = "medium risk";
+        }else {
+            msg = "low risk";
+        }
+        transactionRepository.save(transaction);
+        return new ResponseEntity<>(  msg, HttpStatus.OK);
 //        if(transactions.size() > 0){
 //            // porovnanie s poslednou transakciou
 //            Transaction last = transactions.get(0);

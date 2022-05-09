@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TransactionRepository extends MongoRepository<Transaction, Long> {
-    List<Transaction> findByEmail( String email);
+    List<Transaction> findByEmailOrderByDatumDesc( String email);
 //    List<Transaction> find(Query query, Class<Transaction> transactionClass);
 
 //    @Query("{'ipAdresa' : ?0}")
